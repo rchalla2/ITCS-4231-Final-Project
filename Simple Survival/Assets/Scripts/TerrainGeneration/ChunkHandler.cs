@@ -207,21 +207,11 @@ public class ChunkHandler : MonoBehaviour {
 		}
 
 		objectCreators.Enqueue(() => {
-			GameObject chunkObject = new GameObject(type.ToString());
+			GameObject chunkObject = (GameObject) Instantiate(Resources.Load<GameObject>(type.GetPath()));
 			chunkObject.transform.position = new Vector3(position.x * chunkWidth + x, y - 0.5f, position.y * chunkWidth + z);
 			chunkObject.layer = LayerMask.NameToLayer("Ground");
 			chunkObject.transform.parent = this.transform;
-
-			chunkObject.AddComponent<MeshFilter>();
-			chunkObject.AddComponent<MeshCollider>();
-			
-			MeshRenderer meshRenderer = chunkObject.AddComponent<MeshRenderer>();
-			meshRenderer.material = GetComponent<MeshRenderer>().material;
-			meshRenderer.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
-
-			ObjectGenerator generator = chunkObject.AddComponent<ObjectGenerator>();
-			generator.objectType = type;
-			generator.chunk = position;
+			chunkObject.transform.localScale = chunkObject.transform.localScale * 10f;
 		});
 	}
 
@@ -312,5 +302,20 @@ public class ChunkHandler : MonoBehaviour {
 		// Go through action queue
 		if (!generating)
 			while (objectCreators.Count > 0) objectCreators.Dequeue()();
+	}
+}
+
+static class ChunkObjectTypeMethods {
+	public static string GetPath(this ChunkHandler.ChunkObjectType type) {
+		switch (type) {
+			case ChunkHandler.ChunkObjectType.Cacti:
+				return PrefabPaths.cactiPaths[Random.Range(0, PrefabPaths.cactiPaths.Length - 1)];
+			case ChunkHandler.ChunkObjectType.Tree: case ChunkHandler.ChunkObjectType.JungleTree:
+				return PrefabPaths.treePaths[Random.Range(0, PrefabPaths.treePaths.Length - 1)];
+			case ChunkHandler.ChunkObjectType.Rock:
+				return PrefabPaths.rockPaths[Random.Range(0, PrefabPaths.rockPaths.Length - 1)];
+			default:
+				return "";
+		}
 	}
 }

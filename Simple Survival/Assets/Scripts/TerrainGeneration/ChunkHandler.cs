@@ -212,6 +212,20 @@ public class ChunkHandler : MonoBehaviour {
 			chunkObject.layer = LayerMask.NameToLayer("Ground");
 			chunkObject.transform.parent = this.transform;
 			chunkObject.transform.localScale = chunkObject.transform.localScale * 10f;
+			chunkObject.AddComponent<MeshCollider>();
+
+			ObjectHandler obj = chunkObject.AddComponent<ObjectHandler>();
+			obj.type = type;
+			switch (type) {
+				case ChunkObjectType.Tree: case ChunkObjectType.JungleTree:
+					obj.count = Random.Range(1, 3);
+					obj.item = InventoryItem.Log;
+					break;
+				case ChunkObjectType.Rock:
+					obj.count = Random.Range(1, 2);
+					obj.item = InventoryItem.Stone;
+					break;
+			}
 		});
 	}
 

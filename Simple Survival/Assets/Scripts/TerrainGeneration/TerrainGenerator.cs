@@ -5,7 +5,7 @@ using UnityEngine;
 public class TerrainGenerator : MonoBehaviour {
 
 	// Stores chunks by their chunk location
-	private Dictionary<Vector2Int, GameObject> chunks = new Dictionary<Vector2Int, GameObject>();
+	public Dictionary<Vector2Int, GameObject> chunks = new Dictionary<Vector2Int, GameObject>();
 
 	// The order to load chunks in surrounding the player
 	private List<Vector2Int> chunkLoadingOrder = new List<Vector2Int>();

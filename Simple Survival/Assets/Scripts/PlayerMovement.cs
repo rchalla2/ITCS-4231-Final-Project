@@ -49,6 +49,7 @@ public class PlayerMovement : MonoBehaviour {
 	}
 
 	private void GetInput() {
+		if (GetComponent<PlayerHandler>().inventoryImage.enabled) return;
 		horizontalMovement = Input.GetAxisRaw("Horizontal");
 		verticalMovement = Input.GetAxisRaw("Vertical");
 		isSprinting = Input.GetKey(KeyCode.LeftControl);

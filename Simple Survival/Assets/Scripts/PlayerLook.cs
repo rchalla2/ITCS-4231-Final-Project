@@ -28,6 +28,7 @@ public class PlayerLook : MonoBehaviour {
 	}
 
 	private void GetInput() {
+		if (GetComponent<PlayerHandler>().inventoryImage.enabled) return;
 		mouseX = Input.GetAxisRaw("Mouse X");
 		mouseY = Input.GetAxisRaw("Mouse Y");
 		yRotation += mouseX * sensitivityX * multiplier;
